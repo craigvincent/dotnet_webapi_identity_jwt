@@ -1,0 +1,21 @@
+version: '3.4'
+
+services:
+  db:
+    image: postgres
+    environment:
+    - POSTGRES_USER=postgres
+    - POSTGRES_PASSWORD=password
+    - POSTGRES_DB=appdb
+  dbadmin:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+  apiwithauth:
+    image: ${DOCKER_REGISTRY-}apiwithauth
+    build:
+      context: .
+      dockerfile: ApiWithAuth/Dockerfile
+    depends_on:
+    - db
